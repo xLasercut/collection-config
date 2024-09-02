@@ -8,7 +8,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path={'/notification-test-two/*'} element={<App />}></Route>
+        <Route path={'/collection-config/*'} element={<App />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
