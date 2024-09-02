@@ -1,9 +1,17 @@
 const BASE_ROUTE = '/collection-config';
 
 const ROUTES = {
-  LOGIN: `${BASE_ROUTE}/`,
-  HOME: `${BASE_ROUTE}/home`,
-  NOTIFICATION_SETTINGS: `${BASE_ROUTE}/notification-settings`,
+  HOME: `${BASE_ROUTE}/`,
+  COLLECTION_EDIT: (collectionId: string): string => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('id', collectionId);
+    return `${BASE_ROUTE}/collection?${queryParams.toString()}`;
+  },
+  ADD_COLLECTION_SCHEMA: (collectionId: string): string => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('id', collectionId);
+    return `${BASE_ROUTE}/add-collection-schema?${queryParams.toString()}`;
+  },
 } as const;
 
 export {ROUTES};

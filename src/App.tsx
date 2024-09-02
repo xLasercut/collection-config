@@ -1,29 +1,25 @@
 import {HeaderComponent} from './components/HeaderComponent.tsx';
-import {Footer} from 'nhsuk-react-components';
+import {Container, Footer} from 'nhsuk-react-components';
 import {Route, Routes} from 'react-router-dom';
-import {Home} from './views/Home.tsx';
-import {NotificationSettingsPage} from './views/NotificationSettingsPage.tsx';
-import {Login} from './views/Login.tsx';
-import {LoginRedirect} from './views/LoginRedirect.tsx';
+import {Collections} from './views/Collections.tsx';
+import {CollectionsEdit} from './views/CollectionsEdit.tsx';
+import {AddCollectionSchema} from './views/AddCollectionSchema.tsx';
 
 function App() {
   return (
     <>
       <HeaderComponent></HeaderComponent>
-      <div className='nhsuk-width-container'>
-        <main className='nhsuk-main-wrapper' id='maincontent' role='main'>
-          <Routes>
-            <Route path={'/'} element={<Login />}></Route>
-            <Route element={<LoginRedirect />}>
-              <Route path={'/home'} element={<Home />}></Route>
-              <Route
-                path={'/notification-settings'}
-                element={<NotificationSettingsPage></NotificationSettingsPage>}
-              ></Route>
-            </Route>
-          </Routes>
-        </main>
-      </div>
+      <Container>
+        <div className='nhsuk-width-container'>
+          <main className='nhsuk-main-wrapper' id='maincontent' role='main'>
+            <Routes>
+              <Route path={'/'} element={<Collections />}></Route>
+              <Route path={'/collection'} element={<CollectionsEdit />}></Route>
+              <Route path={'/add-collection-schema'} element={<AddCollectionSchema />}></Route>
+            </Routes>
+          </main>
+        </div>
+      </Container>
       <Footer>
         <Footer.List>
           <Footer.ListItem href='https://digital.nhs.uk/services/strategic-data-collection-service-in-the-cloud-sdcs-cloud/accessibility-statement'>

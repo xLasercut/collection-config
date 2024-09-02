@@ -1,0 +1,3 @@
+function FormInput() {}
+
+export {FormInput};
