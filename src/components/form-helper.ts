@@ -1,4 +1,4 @@
-import {FieldErrors, FieldValues, UseFormRegister, FieldError} from 'react-hook-form';
+import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
 
 function getFormErrorMessage<T extends FieldValues>(
   formField: Parameters<UseFormRegister<T>>['0'],
