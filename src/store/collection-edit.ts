@@ -26,6 +26,7 @@ interface TCollectionEditStoreState extends TCollectionEditStoreData {
   isMandatoryField: (fieldId: string) => boolean;
   addMandatoryField: (fieldId: string) => void;
   removeMandatoryField: (fieldId: string) => void;
+  removeSchemaField: (fieldId: string) => void;
 }
 
 const initialData: TCollectionEditStoreData = {
@@ -176,6 +177,16 @@ const collectionEditStore = createStore<TCollectionEditStoreState>((set, get) =>
             mandatory_fields: state.schemaInEdit.mandatory_fields.filter(field => {
               return field !== fieldId;
             }),
+          },
+        };
+      });
+    },
+    removeSchemaField: (fieldId: string): void => {
+      return set(state => {
+        return {
+          schemaInEdit: {
+            ...state.schemaInEdit,
+            fields: state.schemaInEdit.fields.filter(field => field.field_id !== fieldId),
           },
         };
       });

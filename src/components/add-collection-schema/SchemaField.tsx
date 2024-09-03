@@ -1,4 +1,4 @@
-import {Card, Col, Input, Label, Radios, Row, Select} from 'nhsuk-react-components';
+import {Button, Card, Col, Input, Label, Radios, Row, Select} from 'nhsuk-react-components';
 import {useCollectionConfigStore} from '../../store/collection-config.ts';
 import {useCollectionEditStore} from '../../store/collection-edit.ts';
 import {SchemaFieldRuleStringConstraint} from './SchemaFieldRuleStringConstraint.tsx';
@@ -35,6 +35,10 @@ function SchemaField({fieldId, collectionId}: TSchemaFieldProps) {
     }
   }
 
+  function removeField() {
+    collectionEditStore.removeSchemaField(fieldId);
+  }
+
   const field = collectionEditStore.getSchemaField(fieldId);
 
   return (
@@ -42,9 +46,11 @@ function SchemaField({fieldId, collectionId}: TSchemaFieldProps) {
       <Card.Content>
         <Card.Description>
           <Row>
-            <Col width={'one-third'}>
+            <Col width={'two-thirds'}>
               <Input label={'Field Name'} value={field.name} onChange={updateFieldName}></Input>
             </Col>
+          </Row>
+          <Row>
             <Col width={'one-third'}>
               <Select label={'Type'} onChange={updateRule} value={field.rule.name}>
                 <Select.Option value={''}></Select.Option>
@@ -68,6 +74,9 @@ function SchemaField({fieldId, collectionId}: TSchemaFieldProps) {
                   {'No'}
                 </Radios.Radio>
               </Radios>
+            </Col>
+            <Col width={'one-third'}>
+              <Button onClick={removeField}>Remove Field</Button>
             </Col>
             {field.rule.constraints.length > 0 ? (
               <Col width={'full'}>

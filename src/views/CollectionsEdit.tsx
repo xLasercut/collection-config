@@ -41,7 +41,7 @@ function CollectionsEdit() {
       type: 'text/plain',
     });
     element.href = URL.createObjectURL(file);
-    element.download = 'schema.json';
+    element.download = 'transformed-schema.json';
     document.body.appendChild(element); // Required for this to work in FireFox
     element.click();
   }

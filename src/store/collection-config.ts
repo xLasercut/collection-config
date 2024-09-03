@@ -88,28 +88,38 @@ const collectionConfigStore = createStore<TCollectionConfigStoreState>((set, get
           {},
           ...schemas.map(schema => {
             return {
-              [schema.schema_name]: Object.assign(
-                {},
-                ...schema.fields.map(field => {
-                  return {
-                    [field.name]: {
-                      [field.rule.type]: field.rule.name,
-                      constraints: Object.assign(
-                        {},
-                        ...field.rule.constraints
-                          .filter(constraint => {
-                            return constraint.value;
-                          })
-                          .map(constraint => {
-                            return {
-                              [constraint.name]: constraint.value,
-                            };
-                          })
-                      ),
-                    },
-                  };
-                })
-              ),
+              [schema.schema_name]: {
+                fields: Object.assign(
+                  {},
+                  ...schema.fields.map(field => {
+                    return {
+                      [field.name]: {
+                        [field.rule.type]: field.rule.name,
+                        constraints: Object.assign(
+                          {},
+                          ...field.rule.constraints
+                            .filter(constraint => {
+                              return constraint.value;
+                            })
+                            .map(constraint => {
+                              return {
+                                [constraint.name]: constraint.value,
+                              };
+                            })
+                        ),
+                      },
+                    };
+                  })
+                ),
+                mandatory_fields: schema.mandatory_fields.map(item => {
+                  for (const field of schema.fields) {
+                    if (field.field_id === item) {
+                      return field.name;
+                    }
+                  }
+                  return item;
+                }),
+              },
             };
           })
         ),
