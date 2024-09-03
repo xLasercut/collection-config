@@ -1,6 +1,6 @@
 import {useCollectionConfigStore} from '../store/collection-config.ts';
-import {Button, Col, Row, SummaryList, Table} from 'nhsuk-react-components';
-import {useNavigate, useSearchParams} from 'react-router-dom';
+import {BackLink, Button, Col, Row, SummaryList, Table} from 'nhsuk-react-components';
+import {Link, useNavigate, useSearchParams} from 'react-router-dom';
 import {ROUTES} from '../routing/routes.ts';
 import {useCollectionEditStore} from '../store/collection-edit.ts';
 
@@ -49,8 +49,15 @@ function CollectionsEdit() {
   return (
     <>
       <Row>
+        <Col width={'full'}>
+          <BackLink asElement={Link} to={ROUTES.HOME}>
+            Back
+          </BackLink>
+        </Col>
+      </Row>
+      <Row>
         <Col width={'two-thirds'}>
-          <h4>Collection</h4>
+          <h4>Edit Collection</h4>
           <SummaryList>
             <SummaryList.Row>
               <SummaryList.Key>ID</SummaryList.Key>

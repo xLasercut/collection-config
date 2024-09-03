@@ -5,6 +5,7 @@ import {Collections} from './views/Collections.tsx';
 import {CollectionsEdit} from './views/CollectionsEdit.tsx';
 import {AddCollectionSchema} from './views/AddCollectionSchema.tsx';
 import {EditCollectionSchema} from './views/EditCollectionSchema.tsx';
+import {AddCollection} from './views/AddCollection.tsx';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
               <Route path={'/collection'} element={<CollectionsEdit />}></Route>
               <Route path={'/add-collection-schema'} element={<AddCollectionSchema />}></Route>
               <Route path={'/edit-collection-schema'} element={<EditCollectionSchema />}></Route>
+              <Route path={'/add-collection'} element={<AddCollection />}></Route>
             </Routes>
           </main>
         </div>

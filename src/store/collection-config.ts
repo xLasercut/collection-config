@@ -17,6 +17,7 @@ interface TCollectionConfigStoreState extends TCollectionConfigStoreData {
   editSchema: (schema: TCollectionSchema) => void;
   getAllAvailableFieldRules: (collectionId: string) => TCollectionSchemaFieldRule[];
   getCollectionTransformedSchemas: (collectionId: string) => string;
+  addCollection: (collection: TCollection) => void;
 }
 
 const initialData: TCollectionConfigStoreData = {
@@ -28,6 +29,13 @@ const initialData: TCollectionConfigStoreData = {
 const collectionConfigStore = createStore<TCollectionConfigStoreState>((set, get) => {
   return {
     ...initialData,
+    addCollection: (collection: TCollection) => {
+      return set(state => {
+        return {
+          collections: [...state.collections, collection],
+        };
+      });
+    },
     getCollection: (collectionId: string): TCollection => {
       for (const collection of get().collections) {
         if (collection.collection_id === collectionId) {

@@ -1,10 +1,12 @@
-import {Button, Col, Row, Table} from 'nhsuk-react-components';
+import {Col, Row, Table} from 'nhsuk-react-components';
 import {useCollectionConfigStore} from '../store/collection-config.ts';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {ROUTES} from '../routing/routes.ts';
+import {v4} from 'uuid';
 
 function Collections() {
   const collectionConfigStore = useCollectionConfigStore();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -12,15 +14,6 @@ function Collections() {
         <Col width={'two-thirds'}>
           <h1>Collections</h1>
         </Col>
-      </Row>
-      <Row>
-        <form>
-          <Col width={'one-quarter'}>
-            <Button type='submit' style={{paddingTop: 2, paddingBottom: 2, marginTop: 31}}>
-              Apply
-            </Button>
-          </Col>
-        </form>
       </Row>
       <Table responsive>
         <Table.Head>
@@ -44,6 +37,23 @@ function Collections() {
               </Table.Row>
             );
           })}
+          <Table.Row>
+            <Table.Cell></Table.Cell>
+            <Table.Cell></Table.Cell>
+            <Table.Cell></Table.Cell>
+            <Table.Cell>
+              <a
+                href={''}
+                onClick={e => {
+                  e.preventDefault();
+                  const collectionId = `collection-${v4()}`;
+                  navigate(ROUTES.ADD_COLLECTION(collectionId));
+                }}
+              >
+                Add Collection
+              </a>
+            </Table.Cell>
+          </Table.Row>
         </Table.Body>
       </Table>
     </>
