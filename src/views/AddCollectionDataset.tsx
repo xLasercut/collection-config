@@ -45,7 +45,7 @@ function AddCollectionDataset() {
       dataset_name: data.dataset_name,
       collection_id: collectionId,
       reporting_fields: data.reporting_fields,
-      model: schema.schema_id,
+      model: schema.schema_name,
       schema_id: data.schema_id,
     });
     navigate(ROUTES.COLLECTION_EDIT(collectionId));

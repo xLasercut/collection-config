@@ -48,7 +48,13 @@ type TCollectionSchemaField = z.infer<typeof CollectionSchemaField>;
 type TCollectionSchemaFieldRuleConstraint = z.infer<typeof CollectionSchemaFieldRuleConstraint>;
 type TCollectionDataset = z.infer<typeof CollectionDataset>;
 
-export {Collection, CollectionSchema, CollectionSchemaFieldRule, CollectionSchemaField};
+export {
+  Collection,
+  CollectionSchema,
+  CollectionSchemaFieldRule,
+  CollectionSchemaField,
+  CollectionDataset,
+};
 export type {
   TCollection,
   TCollectionSchema,

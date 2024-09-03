@@ -1,6 +1,7 @@
 import {createStore} from 'zustand/vanilla';
 import {useStore} from 'zustand';
 import {
+  TCollectionDataset,
   TCollectionSchema,
   TCollectionSchemaField,
   TCollectionSchemaFieldRule,
@@ -8,6 +9,7 @@ import {
 
 interface TCollectionEditStoreData {
   schemaInEdit: TCollectionSchema;
+  datasetInEdit: TCollectionDataset;
 }
 
 interface TCollectionEditStoreState extends TCollectionEditStoreData {
@@ -36,6 +38,14 @@ const initialData: TCollectionEditStoreData = {
     schema_name: '',
     fields: [],
     mandatory_fields: [],
+  },
+  datasetInEdit: {
+    collection_id: '',
+    dataset_id: '',
+    model: '',
+    schema_id: '',
+    dataset_name: '',
+    reporting_fields: [],
   },
 };
 
