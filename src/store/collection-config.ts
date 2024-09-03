@@ -1,27 +1,31 @@
 import {createStore} from 'zustand/vanilla';
 import {useStore} from 'zustand';
-import {TCollection, TCollectionSchema, TCollectionSchemaCallable} from '../models/collection.ts';
-import {COLLECTION_SCHEMAS, COLLECTIONS, SCHEMA_CALLABLES} from './default-data.ts';
+import {TCollection, TCollectionSchema, TCollectionSchemaFieldRule} from '../models/collection.ts';
+import {COLLECTION_SCHEMAS, COLLECTIONS, SCHEMA_FIELD_RULES} from './default-data.ts';
 
 interface TCollectionConfigStoreData {
   collections: TCollection[];
   collectionSchemas: TCollectionSchema[];
-  schemaCallables: TCollectionSchemaCallable[];
+  schemaFieldRules: TCollectionSchemaFieldRule[];
 }
 
 interface TCollectionConfigStoreState extends TCollectionConfigStoreData {
   getCollection: (collectionId: string) => TCollection;
   getCollectionSchemas: (collectionId: string) => TCollectionSchema[];
-  getSchemaCallable: (callableId: string) => TCollectionSchemaCallable;
+  getSchemaFieldRule: (collectionId: string, name: string) => TCollectionSchemaFieldRule;
+  addSchema: (schema: TCollectionSchema) => void;
+  editSchema: (schema: TCollectionSchema) => void;
+  getAllAvailableFieldRules: (collectionId: string) => TCollectionSchemaFieldRule[];
+  getCollectionTransformedSchemas: (collectionId: string) => string;
 }
 
 const initialData: TCollectionConfigStoreData = {
   collections: [...COLLECTIONS],
   collectionSchemas: [...COLLECTION_SCHEMAS],
-  schemaCallables: [...SCHEMA_CALLABLES],
+  schemaFieldRules: [...SCHEMA_FIELD_RULES],
 };
 
-const collectionConfigStore = createStore<TCollectionConfigStoreState>((_, get) => {
+const collectionConfigStore = createStore<TCollectionConfigStoreState>((set, get) => {
   return {
     ...initialData,
     getCollection: (collectionId: string): TCollection => {
@@ -37,13 +41,81 @@ const collectionConfigStore = createStore<TCollectionConfigStoreState>((_, get) 
         collectionSchema => collectionSchema.collection_id === collectionId
       );
     },
-    getSchemaCallable: (callableId: string): TCollectionSchemaCallable => {
-      for (const callable of get().schemaCallables) {
-        if (callable.callable_id === callableId) {
-          return callable;
+    getSchemaFieldRule: (collectionId: string, name: string): TCollectionSchemaFieldRule => {
+      for (const rule of get().getAllAvailableFieldRules(collectionId)) {
+        if (rule.name === name) {
+          return rule;
         }
       }
-      throw new Error('cannot find callable');
+      throw new Error('cannot find rule');
+    },
+    addSchema: (schema: TCollectionSchema): void => {
+      return set(state => {
+        return {
+          collectionSchemas: [...state.collectionSchemas, schema],
+        };
+      });
+    },
+    editSchema: (schema: TCollectionSchema): void => {
+      return set(state => {
+        return {
+          collectionSchemas: state.collectionSchemas.map(existingSchema => {
+            if (existingSchema.schema_id === schema.schema_id) {
+              return schema;
+            }
+            return existingSchema;
+          }),
+        };
+      });
+    },
+    getAllAvailableFieldRules: (collectionId: string): TCollectionSchemaFieldRule[] => {
+      const builtInRules = get().schemaFieldRules;
+      const modelRules: TCollectionSchemaFieldRule[] = get()
+        .getCollectionSchemas(collectionId)
+        .map(schema => {
+          return {
+            name: schema.schema_name,
+            type: 'model',
+            constraints: [],
+          };
+        });
+      return builtInRules.concat(modelRules);
+    },
+    getCollectionTransformedSchemas: (collectionId: string): string => {
+      const schemas = get().getCollectionSchemas(collectionId);
+      return JSON.stringify(
+        Object.assign(
+          {},
+          ...schemas.map(schema => {
+            return {
+              [schema.schema_name]: Object.assign(
+                {},
+                ...schema.fields.map(field => {
+                  return {
+                    [field.name]: {
+                      [field.rule.type]: field.rule.name,
+                      constraints: Object.assign(
+                        {},
+                        ...field.rule.constraints
+                          .filter(constraint => {
+                            return constraint.value;
+                          })
+                          .map(constraint => {
+                            return {
+                              [constraint.name]: constraint.value,
+                            };
+                          })
+                      ),
+                    },
+                  };
+                })
+              ),
+            };
+          })
+        ),
+        null,
+        2
+      );
     },
   };
 });

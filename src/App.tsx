@@ -4,6 +4,7 @@ import {Route, Routes} from 'react-router-dom';
 import {Collections} from './views/Collections.tsx';
 import {CollectionsEdit} from './views/CollectionsEdit.tsx';
 import {AddCollectionSchema} from './views/AddCollectionSchema.tsx';
+import {EditCollectionSchema} from './views/EditCollectionSchema.tsx';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
               <Route path={'/'} element={<Collections />}></Route>
               <Route path={'/collection'} element={<CollectionsEdit />}></Route>
               <Route path={'/add-collection-schema'} element={<AddCollectionSchema />}></Route>
+              <Route path={'/edit-collection-schema'} element={<EditCollectionSchema />}></Route>
             </Routes>
           </main>
         </div>

@@ -1,12 +1,15 @@
 import {useCollectionConfigStore} from '../store/collection-config.ts';
-import {Col, Row, SummaryList, Table} from 'nhsuk-react-components';
-import {Link, useSearchParams} from 'react-router-dom';
+import {Button, Col, Row, SummaryList, Table} from 'nhsuk-react-components';
+import {useNavigate, useSearchParams} from 'react-router-dom';
 import {ROUTES} from '../routing/routes.ts';
+import {useCollectionEditStore} from '../store/collection-edit.ts';
 
 function CollectionsEdit() {
   const collectionConfigStore = useCollectionConfigStore();
+  const collectionEditStore = useCollectionEditStore();
   const [searchParams] = useSearchParams();
   const collectionId = searchParams.get('id');
+  const navigate = useNavigate();
 
   if (!collectionId) {
     return <>{null}</>;
@@ -14,6 +17,34 @@ function CollectionsEdit() {
 
   const collection = collectionConfigStore.getCollection(collectionId);
   const schemas = collectionConfigStore.getCollectionSchemas(collectionId);
+
+  function downloadSchemas() {
+    if (!collectionId) {
+      return;
+    }
+
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(schemas, null, 2)], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = 'schema.json';
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
+
+  function downloadTransformedSchemas() {
+    if (!collectionId) {
+      return;
+    }
+
+    const element = document.createElement('a');
+    const file = new Blob([collectionConfigStore.getCollectionTransformedSchemas(collectionId)], {
+      type: 'text/plain',
+    });
+    element.href = URL.createObjectURL(file);
+    element.download = 'schema.json';
+    document.body.appendChild(element); // Required for this to work in FireFox
+    element.click();
+  }
 
   return (
     <>
@@ -60,7 +91,16 @@ function CollectionsEdit() {
                     <Table.Cell>{schema.schema_id}</Table.Cell>
                     <Table.Cell>{schema.schema_name}</Table.Cell>
                     <Table.Cell>
-                      <Link to={ROUTES.COLLECTION_EDIT(collection.collection_id)}>Edit</Link>
+                      <a
+                        href={''}
+                        onClick={e => {
+                          e.preventDefault();
+                          collectionEditStore.setSchemaInEdit(schema);
+                          navigate(ROUTES.EDIT_COLLECTION_SCHEMA(collectionId));
+                        }}
+                      >
+                        Edit
+                      </a>
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -69,13 +109,28 @@ function CollectionsEdit() {
                 <Table.Cell></Table.Cell>
                 <Table.Cell></Table.Cell>
                 <Table.Cell>
-                  <Link to={ROUTES.ADD_COLLECTION_SCHEMA(collection.collection_id)}>
+                  <a
+                    href={''}
+                    onClick={e => {
+                      e.preventDefault();
+                      collectionEditStore.reset();
+                      navigate(ROUTES.ADD_COLLECTION_SCHEMA(collectionId));
+                    }}
+                  >
                     Add Schema
-                  </Link>
+                  </a>
                 </Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>
+        </Col>
+      </Row>
+      <Row>
+        <Col width={'one-quarter'}>
+          <Button onClick={downloadSchemas}>download schemas</Button>
+        </Col>
+        <Col width={'one-half'}>
+          <Button onClick={downloadTransformedSchemas}>download transformed schemas</Button>
         </Col>
       </Row>
     </>

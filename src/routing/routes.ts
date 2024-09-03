@@ -12,6 +12,11 @@ const ROUTES = {
     queryParams.set('id', collectionId);
     return `${BASE_ROUTE}/add-collection-schema?${queryParams.toString()}`;
   },
+  EDIT_COLLECTION_SCHEMA: (collectionId: string): string => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('id', collectionId);
+    return `${BASE_ROUTE}/edit-collection-schema?${queryParams.toString()}`;
+  },
 } as const;
 
 export {ROUTES};

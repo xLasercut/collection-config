@@ -6,7 +6,7 @@ import {useCollectionEditStore} from '../store/collection-edit.ts';
 import {v4} from 'uuid';
 import {ROUTES} from '../routing/routes.ts';
 
-function AddCollectionSchema() {
+function EditCollectionSchema() {
   const collectionConfigStore = useCollectionConfigStore();
   const collectionEditStore = useCollectionEditStore();
   const [searchParams] = useSearchParams();
@@ -31,16 +31,12 @@ function AddCollectionSchema() {
     console.log(schemaInEdit);
   }
 
-  function addSchema() {
+  function editSchema() {
     if (!collectionId) {
       return;
     }
 
-    collectionConfigStore.addSchema({
-      ...schemaInEdit,
-      collection_id: collectionId,
-      schema_id: `schema-${v4()}`,
-    });
+    collectionConfigStore.editSchema(schemaInEdit);
     navigate(ROUTES.COLLECTION_EDIT(collectionId));
   }
 
@@ -79,11 +75,11 @@ function AddCollectionSchema() {
           <Button onClick={checkSchema}>Check</Button>
         </Col>
         <Col width={'one-quarter'}>
-          <Button onClick={addSchema}>Confirm</Button>
+          <Button onClick={editSchema}>Confirm</Button>
         </Col>
       </Row>
     </>
   );
 }
 
-export {AddCollectionSchema};
+export {EditCollectionSchema};

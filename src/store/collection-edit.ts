@@ -1,6 +1,10 @@
 import {createStore} from 'zustand/vanilla';
 import {useStore} from 'zustand';
-import {TCollectionSchema, TCollectionSchemaField} from '../models/collection.ts';
+import {
+  TCollectionSchema,
+  TCollectionSchemaField,
+  TCollectionSchemaFieldRule,
+} from '../models/collection.ts';
 
 interface TCollectionEditStoreData {
   schemaInEdit: TCollectionSchema;
@@ -10,6 +14,18 @@ interface TCollectionEditStoreState extends TCollectionEditStoreData {
   addSchemaField: (fieldId: string) => void;
   getSchemaField: (fieldId: string) => TCollectionSchemaField;
   updateFieldName: (fieldId: string, name: string) => void;
+  setFieldRule: (fieldId: string, rule: TCollectionSchemaFieldRule) => void;
+  updateConstraintValue: (
+    fieldId: string,
+    constraintName: string,
+    value: number | string | boolean
+  ) => void;
+  updateSchemaName: (name: string) => void;
+  setSchemaInEdit: (schema: TCollectionSchema) => void;
+  reset: () => void;
+  isMandatoryField: (fieldId: string) => boolean;
+  addMandatoryField: (fieldId: string) => void;
+  removeMandatoryField: (fieldId: string) => void;
 }
 
 const initialData: TCollectionEditStoreData = {
@@ -18,6 +34,7 @@ const initialData: TCollectionEditStoreData = {
     collection_id: '',
     schema_name: '',
     fields: [],
+    mandatory_fields: [],
   },
 };
 
@@ -29,7 +46,10 @@ const collectionEditStore = createStore<TCollectionEditStoreState>((set, get) =>
         return {
           schemaInEdit: {
             ...state.schemaInEdit,
-            fields: [...state.schemaInEdit.fields, {field_id: fieldId, name: '', rule: {}}],
+            fields: [
+              ...state.schemaInEdit.fields,
+              {field_id: fieldId, name: '', rule: {name: '', type: '', constraints: []}},
+            ],
           },
         };
       });
@@ -41,6 +61,16 @@ const collectionEditStore = createStore<TCollectionEditStoreState>((set, get) =>
         }
       }
       throw new Error('cannot find field');
+    },
+    updateSchemaName: (name: string): void => {
+      return set(state => {
+        return {
+          schemaInEdit: {
+            ...state.schemaInEdit,
+            schema_name: name,
+          },
+        };
+      });
     },
     updateFieldName: (fieldId: string, name: string): void => {
       return set(state => {
@@ -55,6 +85,96 @@ const collectionEditStore = createStore<TCollectionEditStoreState>((set, get) =>
                 };
               }
               return field;
+            }),
+          },
+        };
+      });
+    },
+    setFieldRule: (fieldId: string, rule: TCollectionSchemaFieldRule): void => {
+      return set(state => {
+        return {
+          schemaInEdit: {
+            ...state.schemaInEdit,
+            fields: state.schemaInEdit.fields.map(field => {
+              if (field.field_id === fieldId) {
+                return {
+                  ...field,
+                  rule: rule,
+                };
+              }
+              return field;
+            }),
+          },
+        };
+      });
+    },
+    updateConstraintValue: (
+      fieldId: string,
+      constraintName: string,
+      value: number | string | boolean
+    ): void => {
+      return set(state => {
+        return {
+          schemaInEdit: {
+            ...state.schemaInEdit,
+            fields: state.schemaInEdit.fields.map(field => {
+              if (field.field_id === fieldId) {
+                return {
+                  ...field,
+                  rule: {
+                    ...field.rule,
+                    constraints: field.rule.constraints.map(constraint => {
+                      if (constraintName === constraint.name) {
+                        return {
+                          ...constraint,
+                          value: value,
+                        };
+                      }
+                      return constraint;
+                    }),
+                  },
+                };
+              }
+              return field;
+            }),
+          },
+        };
+      });
+    },
+    setSchemaInEdit: (schema: TCollectionSchema): void => {
+      return set(() => {
+        return {
+          schemaInEdit: schema,
+        };
+      });
+    },
+    reset: () => {
+      return set(() => {
+        return {
+          ...initialData,
+        };
+      });
+    },
+    isMandatoryField: (fieldId: string): boolean => {
+      return get().schemaInEdit.mandatory_fields.includes(fieldId);
+    },
+    addMandatoryField: (fieldId: string): void => {
+      return set(state => {
+        return {
+          schemaInEdit: {
+            ...state.schemaInEdit,
+            mandatory_fields: [...state.schemaInEdit.mandatory_fields, fieldId],
+          },
+        };
+      });
+    },
+    removeMandatoryField: (fieldId: string): void => {
+      return set(state => {
+        return {
+          schemaInEdit: {
+            ...state.schemaInEdit,
+            mandatory_fields: state.schemaInEdit.mandatory_fields.filter(field => {
+              return field !== fieldId;
             }),
           },
         };
