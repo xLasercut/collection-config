@@ -76,7 +76,7 @@ const collectionConfigStore = createStore<TCollectionConfigStoreState>((set, get
           return {
             name: schema.schema_name,
             type: 'model',
-            constraints: [],
+            constraints: [{name: 'is_array', type: 'boolean', value: false}],
           };
         });
       return builtInRules.concat(modelRules);
@@ -99,7 +99,7 @@ const collectionConfigStore = createStore<TCollectionConfigStoreState>((set, get
                           {},
                           ...field.rule.constraints
                             .filter(constraint => {
-                              return constraint.value;
+                              return constraint.value || constraint.value === false;
                             })
                             .map(constraint => {
                               return {

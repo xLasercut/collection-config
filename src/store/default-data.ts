@@ -44,17 +44,20 @@ const SCHEMA_FIELD_RULES: TCollectionSchemaFieldRule[] = [
   {
     name: 'conformatteddate',
     type: 'callable',
-    constraints: [{name: 'date_format', type: 'string'}],
+    constraints: [
+      {name: 'date_format', type: 'string'},
+      {name: 'is_array', type: 'boolean', value: false},
+    ],
   },
   {
     name: 'str',
     type: 'callable',
-    constraints: [],
+    constraints: [{name: 'is_array', type: 'boolean', value: false}],
   },
   {
     name: 'Cost',
     type: 'callable',
-    constraints: [],
+    constraints: [{name: 'is_array', type: 'boolean', value: false}],
   },
   {
     name: 'condecimal',
@@ -62,6 +65,7 @@ const SCHEMA_FIELD_RULES: TCollectionSchemaFieldRule[] = [
     constraints: [
       {name: 'max_digits', type: 'number'},
       {name: 'decimal_places', type: 'number'},
+      {name: 'is_array', type: 'boolean', value: false},
     ],
   },
 ];

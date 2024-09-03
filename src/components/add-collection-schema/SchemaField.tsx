@@ -3,6 +3,7 @@ import {useCollectionConfigStore} from '../../store/collection-config.ts';
 import {useCollectionEditStore} from '../../store/collection-edit.ts';
 import {SchemaFieldRuleStringConstraint} from './SchemaFieldRuleStringConstraint.tsx';
 import {SchemaFieldRuleNumberConstraint} from './SchemaFieldRuleNumberConstriant.tsx';
+import {SchemaFieldRuleBooleanConstraint} from './SchemaFieldRuleBooleanConstraint.tsx';
 
 interface TSchemaFieldProps {
   fieldId: string;
@@ -92,6 +93,16 @@ function SchemaField({fieldId, collectionId}: TSchemaFieldProps) {
                         constraint={constraint}
                         fieldId={fieldId}
                       ></SchemaFieldRuleNumberConstraint>
+                    );
+                  }
+
+                  if (constraint.type === 'boolean') {
+                    return (
+                      <SchemaFieldRuleBooleanConstraint
+                        key={constraint.name}
+                        constraint={constraint}
+                        fieldId={fieldId}
+                      ></SchemaFieldRuleBooleanConstraint>
                     );
                   }
 

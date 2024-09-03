@@ -50,6 +50,11 @@ function EditCollectionSchema() {
         </Col>
       </Row>
       <Row>
+        <Col width={'full'}>
+          <h4>Edit Schema</h4>
+        </Col>
+      </Row>
+      <Row>
         <Col width={'two-thirds'}>
           <Input
             label={'Schema Name'}

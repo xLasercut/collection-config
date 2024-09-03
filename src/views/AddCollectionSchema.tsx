@@ -54,6 +54,11 @@ function AddCollectionSchema() {
         </Col>
       </Row>
       <Row>
+        <Col width={'full'}>
+          <h4>Add Schema</h4>
+        </Col>
+      </Row>
+      <Row>
         <Col width={'two-thirds'}>
           <Input
             label={'Schema Name'}
