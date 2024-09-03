@@ -1,4 +1,4 @@
-import {FieldErrors, FieldValues, UseFormRegister} from 'react-hook-form';
+import {FieldErrors, FieldValues, UseFormRegister, FieldError} from 'react-hook-form';
 
 function getFormErrorMessage<T extends FieldValues>(
   formField: Parameters<UseFormRegister<T>>['0'],
@@ -14,6 +14,7 @@ function getFormErrorMessage<T extends FieldValues>(
     return error;
   }
 
+  // @ts-expect-error typescript complaining wrong type
   return error.message ?? '';
 }
 
