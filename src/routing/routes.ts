@@ -22,6 +22,16 @@ const ROUTES = {
     queryParams.set('id', collectionId);
     return `${BASE_ROUTE}/add-collection?${queryParams.toString()}`;
   },
+  ADD_COLLECTION_DATASET: (collectionId: string): string => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('id', collectionId);
+    return `${BASE_ROUTE}/add-collection-dataset?${queryParams.toString()}`;
+  },
+  EDIT_COLLECTION_DATASET: (collectionId: string): string => {
+    const queryParams = new URLSearchParams();
+    queryParams.set('id', collectionId);
+    return `${BASE_ROUTE}/edit-collection-dataset?${queryParams.toString()}`;
+  },
 } as const;
 
 export {ROUTES};

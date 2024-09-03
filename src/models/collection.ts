@@ -32,11 +32,21 @@ const CollectionSchema = z.object({
   mandatory_fields: z.array(z.string()),
 });
 
+const CollectionDataset = z.object({
+  collection_id: z.string(),
+  dataset_id: z.string(),
+  dataset_name: z.string(),
+  schema_id: z.string(),
+  model: z.string(),
+  reporting_fields: z.array(z.string()),
+});
+
 type TCollection = z.infer<typeof Collection>;
 type TCollectionSchema = z.infer<typeof CollectionSchema>;
 type TCollectionSchemaFieldRule = z.infer<typeof CollectionSchemaFieldRule>;
 type TCollectionSchemaField = z.infer<typeof CollectionSchemaField>;
 type TCollectionSchemaFieldRuleConstraint = z.infer<typeof CollectionSchemaFieldRuleConstraint>;
+type TCollectionDataset = z.infer<typeof CollectionDataset>;
 
 export {Collection, CollectionSchema, CollectionSchemaFieldRule, CollectionSchemaField};
 export type {
@@ -45,4 +55,5 @@ export type {
   TCollectionSchemaFieldRule,
   TCollectionSchemaField,
   TCollectionSchemaFieldRuleConstraint,
+  TCollectionDataset,
 };

@@ -17,6 +17,7 @@ function CollectionsEdit() {
 
   const collection = collectionConfigStore.getCollection(collectionId);
   const schemas = collectionConfigStore.getCollectionSchemas(collectionId);
+  const datasets = collectionConfigStore.getCollectionDatasets(collectionId);
 
   function downloadSchemas() {
     if (!collectionId) {
@@ -24,7 +25,7 @@ function CollectionsEdit() {
     }
 
     const element = document.createElement('a');
-    const file = new Blob([JSON.stringify(schemas, null, 2)], {type: 'text/plain'});
+    const file = new Blob([JSON.stringify({schemas, datasets}, null, 2)], {type: 'text/plain'});
     element.href = URL.createObjectURL(file);
     element.download = 'schema.json';
     document.body.appendChild(element); // Required for this to work in FireFox
@@ -80,8 +81,6 @@ function CollectionsEdit() {
         <Col width={'two-thirds'}>
           <h3>Schemas</h3>
         </Col>
-      </Row>
-      <Row>
         <Col width={'full'}>
           <Table responsive>
             <Table.Head>
@@ -125,6 +124,62 @@ function CollectionsEdit() {
                     }}
                   >
                     Add Schema
+                  </a>
+                </Table.Cell>
+              </Table.Row>
+            </Table.Body>
+          </Table>
+        </Col>
+      </Row>
+      <Row>
+        <Col width={'two-thirds'}>
+          <h3>Datasets</h3>
+        </Col>
+        <Col width={'full'}>
+          <Table responsive>
+            <Table.Head>
+              <Table.Row>
+                <Table.Cell>ID</Table.Cell>
+                <Table.Cell>Name</Table.Cell>
+                <Table.Cell>Model</Table.Cell>
+                <Table.Cell>Action</Table.Cell>
+              </Table.Row>
+            </Table.Head>
+            <Table.Body>
+              {datasets.map(dataset => {
+                return (
+                  <Table.Row>
+                    <Table.Cell>{dataset.dataset_id}</Table.Cell>
+                    <Table.Cell>{dataset.dataset_name}</Table.Cell>
+                    <Table.Cell>{dataset.model}</Table.Cell>
+                    <Table.Cell>
+                      <a
+                        href={''}
+                        onClick={e => {
+                          e.preventDefault();
+                          navigate(ROUTES.EDIT_COLLECTION_DATASET(collectionId));
+                        }}
+                      >
+                        Edit
+                      </a>
+                    </Table.Cell>
+                  </Table.Row>
+                );
+              })}
+              <Table.Row>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell></Table.Cell>
+                <Table.Cell>
+                  <a
+                    href={''}
+                    onClick={e => {
+                      e.preventDefault();
+                      collectionEditStore.reset();
+                      navigate(ROUTES.ADD_COLLECTION_DATASET(collectionId));
+                    }}
+                  >
+                    Add Dataset
                   </a>
                 </Table.Cell>
               </Table.Row>

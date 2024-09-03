@@ -6,6 +6,8 @@ import {CollectionsEdit} from './views/CollectionsEdit.tsx';
 import {AddCollectionSchema} from './views/AddCollectionSchema.tsx';
 import {EditCollectionSchema} from './views/EditCollectionSchema.tsx';
 import {AddCollection} from './views/AddCollection.tsx';
+import {AddCollectionDataset} from './views/AddCollectionDataset.tsx';
+import {EditCollectionDataset} from './views/EditCollectionDataset.tsx';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
               <Route path={'/add-collection-schema'} element={<AddCollectionSchema />}></Route>
               <Route path={'/edit-collection-schema'} element={<EditCollectionSchema />}></Route>
               <Route path={'/add-collection'} element={<AddCollection />}></Route>
+              <Route path={'/add-collection-dataset'} element={<AddCollectionDataset />}></Route>
+              <Route path={'/edit-collection-dataset'} element={<EditCollectionDataset />}></Route>
             </Routes>
           </main>
         </div>

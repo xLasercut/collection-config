@@ -56,12 +56,11 @@ const collectionEditStore = createStore<TCollectionEditStoreState>((set, get) =>
       });
     },
     getSchemaField: (fieldId: string): TCollectionSchemaField => {
-      for (const field of get().schemaInEdit.fields) {
-        if (field.field_id === fieldId) {
-          return field;
-        }
+      const field = get().schemaInEdit.fields.find(field => field.field_id === fieldId);
+      if (!field) {
+        throw new Error('cannot find field');
       }
-      throw new Error('cannot find field');
+      return field;
     },
     updateSchemaName: (name: string): void => {
       return set(state => {
