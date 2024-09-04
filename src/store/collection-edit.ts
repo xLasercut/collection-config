@@ -29,6 +29,7 @@ interface TCollectionEditStoreState extends TCollectionEditStoreData {
   addMandatoryField: (fieldId: string) => void;
   removeMandatoryField: (fieldId: string) => void;
   removeSchemaField: (fieldId: string) => void;
+  setDatasetInEdit: (dataset: TCollectionDataset) => void;
 }
 
 const initialData: TCollectionEditStoreData = {
@@ -52,6 +53,13 @@ const initialData: TCollectionEditStoreData = {
 const collectionEditStore = createStore<TCollectionEditStoreState>((set, get) => {
   return {
     ...initialData,
+    setDatasetInEdit: (dataset: TCollectionDataset): void => {
+      return set(() => {
+        return {
+          datasetInEdit: dataset,
+        };
+      });
+    },
     addSchemaField: (fieldId: string): void => {
       return set(state => {
         return {

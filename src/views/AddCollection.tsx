@@ -1,5 +1,5 @@
 import {BackLink, Button, Col, Row} from 'nhsuk-react-components';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {ROUTES} from '../routing/routes.ts';
 import {useForm} from 'react-hook-form';
 import {Collection, TCollection} from '../models/collection.ts';
@@ -8,8 +8,7 @@ import {FormInput} from '../components/FormInput.tsx';
 import {useCollectionConfigStore} from '../store/collection-config.ts';
 
 function AddCollection() {
-  const [searchParams] = useSearchParams();
-  const collectionId = searchParams.get('id');
+  const {collectionId} = useParams();
   const collectionConfigStore = useCollectionConfigStore();
   const navigate = useNavigate();
   const formHandler = useForm<TCollection>({

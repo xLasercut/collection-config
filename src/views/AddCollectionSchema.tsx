@@ -1,5 +1,5 @@
 import {useCollectionConfigStore} from '../store/collection-config.ts';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {BackLink, Button, Col, Input, Row} from 'nhsuk-react-components';
 import {SchemaField} from '../components/add-collection-schema/SchemaField.tsx';
 import {useCollectionEditStore} from '../store/collection-edit.ts';
@@ -9,8 +9,7 @@ import {ROUTES} from '../routing/routes.ts';
 function AddCollectionSchema() {
   const collectionConfigStore = useCollectionConfigStore();
   const collectionEditStore = useCollectionEditStore();
-  const [searchParams] = useSearchParams();
-  const collectionId = searchParams.get('id');
+  const {collectionId} = useParams();
   const navigate = useNavigate();
 
   if (!collectionId) {

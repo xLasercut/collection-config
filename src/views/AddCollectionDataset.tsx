@@ -1,33 +1,26 @@
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {BackLink, Button, Col, Row} from 'nhsuk-react-components';
 import {ROUTES} from '../routing/routes.ts';
 import {useCollectionConfigStore} from '../store/collection-config.ts';
-import {z} from 'zod';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {FormSelect} from '../components/FormSelect.tsx';
 import {FormCheckboxMultiSelect} from '../components/FormCheckboxMultiSelect.tsx';
 import {v4} from 'uuid';
 import {FormInput} from '../components/FormInput.tsx';
+import {CollectionDataset} from '../models/collection.ts';
+import {useCollectionEditStore} from '../store/collection-edit.ts';
 
 function AddCollectionDataset() {
-  const [searchParams] = useSearchParams();
-  const collectionId = searchParams.get('id');
+  const {collectionId} = useParams();
   const collectionConfigStore = useCollectionConfigStore();
+  const collectionEditStore = useCollectionEditStore();
   const navigate = useNavigate();
 
-  const FormSchema = z.object({
-    schema_id: z.string(),
-    dataset_name: z.string(),
-    reporting_fields: z.array(z.string()),
-  });
-
   const formHandler = useForm({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(CollectionDataset),
     values: {
-      schema_id: '',
-      reporting_fields: [],
-      dataset_name: '',
+      ...collectionEditStore.datasetInEdit,
     },
   });
 

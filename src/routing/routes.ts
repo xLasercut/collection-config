@@ -3,34 +3,22 @@ const BASE_ROUTE = '/collection-config';
 const ROUTES = {
   HOME: `${BASE_ROUTE}/`,
   COLLECTION_EDIT: (collectionId: string): string => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('id', collectionId);
-    return `${BASE_ROUTE}/collection?${queryParams.toString()}`;
+    return `${BASE_ROUTE}/collection/${collectionId}`;
   },
   ADD_COLLECTION_SCHEMA: (collectionId: string): string => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('id', collectionId);
-    return `${BASE_ROUTE}/add-collection-schema?${queryParams.toString()}`;
+    return `${BASE_ROUTE}/add-collection-schema/${collectionId}`;
   },
   EDIT_COLLECTION_SCHEMA: (collectionId: string): string => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('id', collectionId);
-    return `${BASE_ROUTE}/edit-collection-schema?${queryParams.toString()}`;
+    return `${BASE_ROUTE}/edit-collection-schema/${collectionId}`;
   },
   ADD_COLLECTION: (collectionId: string): string => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('id', collectionId);
-    return `${BASE_ROUTE}/add-collection?${queryParams.toString()}`;
+    return `${BASE_ROUTE}/add-collection/${collectionId}`;
   },
   ADD_COLLECTION_DATASET: (collectionId: string): string => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('id', collectionId);
-    return `${BASE_ROUTE}/add-collection-dataset?${queryParams.toString()}`;
+    return `${BASE_ROUTE}/add-collection-dataset/${collectionId}`;
   },
   EDIT_COLLECTION_DATASET: (collectionId: string): string => {
-    const queryParams = new URLSearchParams();
-    queryParams.set('id', collectionId);
-    return `${BASE_ROUTE}/edit-collection-dataset?${queryParams.toString()}`;
+    return `${BASE_ROUTE}/edit-collection-dataset/${collectionId}`;
   },
 } as const;
 

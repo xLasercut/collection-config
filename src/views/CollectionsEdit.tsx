@@ -1,14 +1,13 @@
 import {useCollectionConfigStore} from '../store/collection-config.ts';
 import {BackLink, Button, Col, Row, SummaryList, Table} from 'nhsuk-react-components';
-import {Link, useNavigate, useSearchParams} from 'react-router-dom';
+import {Link, useNavigate, useParams} from 'react-router-dom';
 import {ROUTES} from '../routing/routes.ts';
 import {useCollectionEditStore} from '../store/collection-edit.ts';
 
 function CollectionsEdit() {
   const collectionConfigStore = useCollectionConfigStore();
   const collectionEditStore = useCollectionEditStore();
-  const [searchParams] = useSearchParams();
-  const collectionId = searchParams.get('id');
+  const {collectionId} = useParams();
   const navigate = useNavigate();
 
   if (!collectionId) {
@@ -157,6 +156,7 @@ function CollectionsEdit() {
                         href={''}
                         onClick={e => {
                           e.preventDefault();
+                          collectionEditStore.setDatasetInEdit(dataset);
                           navigate(ROUTES.EDIT_COLLECTION_DATASET(collectionId));
                         }}
                       >

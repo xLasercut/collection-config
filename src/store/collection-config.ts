@@ -27,6 +27,7 @@ interface TCollectionConfigStoreState extends TCollectionConfigStoreData {
   getCollectionDatasets: (collectionId: string) => TCollectionDataset[];
   getCollectionSchema: (collectionId: string, schemaId: string) => TCollectionSchema;
   addDataset: (dataset: TCollectionDataset) => void;
+  editDataset: (dataset: TCollectionDataset) => void;
 }
 
 const initialData: TCollectionConfigStoreData = {
@@ -39,6 +40,18 @@ const initialData: TCollectionConfigStoreData = {
 const collectionConfigStore = createStore<TCollectionConfigStoreState>((set, get) => {
   return {
     ...initialData,
+    editDataset: (dataset: TCollectionDataset) => {
+      return set(state => {
+        return {
+          collectionDatasets: state.collectionDatasets.map(existingDataset => {
+            if (dataset.dataset_id === existingDataset.dataset_id) {
+              return dataset;
+            }
+            return existingDataset;
+          }),
+        };
+      });
+    },
     addDataset: (dataset: TCollectionDataset) => {
       return set(state => {
         return {

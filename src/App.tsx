@@ -18,12 +18,24 @@ function App() {
           <main className='nhsuk-main-wrapper' id='maincontent' role='main'>
             <Routes>
               <Route path={'/'} element={<Collections />}></Route>
-              <Route path={'/collection'} element={<CollectionsEdit />}></Route>
-              <Route path={'/add-collection-schema'} element={<AddCollectionSchema />}></Route>
-              <Route path={'/edit-collection-schema'} element={<EditCollectionSchema />}></Route>
-              <Route path={'/add-collection'} element={<AddCollection />}></Route>
-              <Route path={'/add-collection-dataset'} element={<AddCollectionDataset />}></Route>
-              <Route path={'/edit-collection-dataset'} element={<EditCollectionDataset />}></Route>
+              <Route path={'/collection/:collectionId'} element={<CollectionsEdit />}></Route>
+              <Route
+                path={'/add-collection-schema/:collectionId'}
+                element={<AddCollectionSchema />}
+              ></Route>
+              <Route
+                path={'/edit-collection-schema/:collectionId'}
+                element={<EditCollectionSchema />}
+              ></Route>
+              <Route path={'/add-collection/:collectionId'} element={<AddCollection />}></Route>
+              <Route
+                path={'/add-collection-dataset/:collectionId'}
+                element={<AddCollectionDataset />}
+              ></Route>
+              <Route
+                path={'/edit-collection-dataset/:collectionId'}
+                element={<EditCollectionDataset />}
+              ></Route>
             </Routes>
           </main>
         </div>
